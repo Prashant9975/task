@@ -1,0 +1,145 @@
+<html>
+  N:<input type="text" id="n" />
+  M:<input type="text" id="m" />
+  Enter text :
+  <input type="text" id="matrixvalue" placeholder="add n*m values with space" />
+  <input type="button" value="add" onclick="fillgrid()" />
+
+  <br />
+  <br />
+
+  <input type="button" value="Display Grid" onclick="displaygrid()" />
+  <br />
+  <div id="grid">
+    GRID
+    <div id="table"></div>
+  </div>
+
+  <br />
+  <br />
+  Search text :
+  <input type="text" id="searchtxt" placeholder="Search text" />
+  <input type="button" value="Search" onclick="search()" />
+
+  <script type="text/javascript">
+    var isgridcreated = false;
+    var items = new Array();
+
+    function fillgrid() {
+      if (!isgridcreated) {
+        if (
+          document.getElementById("n") == "" ||
+          document.getElementById("n") == null
+        ) {
+          alert("Enter n");
+          return;
+        }
+        if (
+          document.getElementById("m") == "" ||
+          document.getElementById("m") == null
+        ) {
+          alert("Enter m");
+          return;
+        }
+        if (
+          document.getElementById("matrixvalue") == "" ||
+          document.getElementById("m") == null
+        ) {
+          alert("Enter matrixvalue");
+          return;
+        }
+
+        var n = parseInt(document.getElementById("n").value);
+        var m = parseInt(document.getElementById("m").value);
+
+        var matrixvalue = parseInt(
+          document.getElementById("matrixvalue").value.split(" ")
+        );
+
+        console.log(matrixvalue.length);
+        if (matrixvalue.length != n * m) {
+          alert("Please enter valid grid values");
+          return;
+        }
+      }
+
+      var index = 0;
+      console.log(matrixvalue);
+
+      for (var i = 0; i < n; i++) {
+        items[i] = new Array();
+        for (var j = 0; j < m; j++) {
+          items[i].push(matrixvalue[index++]);
+        }
+      }
+
+      console.log(items);
+    }
+
+    function displaygrid() {
+      var n = parseInt(document.getElementById("n").value);
+      var m = parseInt(document.getElementById("m").value);
+
+      var str = `<table> <tr>`;
+      for (var i = 0; i < n; i++) {
+        str = str + `<th>column` + (i + 1) + `</th>`;
+      }
+
+      for (var i = 0; i < n; i++) {
+        str = str + `<tr/>`;
+        for (var j = 0; j < m; j++) {
+          str = str + `<td/>` + items[i][j] + `</td>`;
+        }
+        str = str + `</tr>`;
+      }
+      var e = document.createElement("div");
+      e.innerHTML = str;
+
+      while (e.firstChild) {
+        document.getElementById("table").appendChild(e.firstChild);
+      }
+
+      //document.getElementById("table").appenChild(e)
+      str = "";
+    }
+
+    function search() {
+      var n = parseInt(document.getElementById("n").value);
+      var m = parseInt(document.getElementById("m").value);
+
+      var str = `<table> <tr>`;
+      for (var i = 0; i < n; i++) {
+        str = str + `<th>column` + (i + 1) + `</th>`;
+      }
+
+      for (var i = 0; i < n; i++) {
+        str = str + `<tr>`;
+        for (var j = 0; j < m; j++) {
+          if (
+            document.getElementById("searchtxt").value.indexOf(items[i][j]) > -1
+          ) {
+            str =
+              str +
+              `<td><span style="background:yellow;">` +
+              items[i][j] +
+              `</td>`;
+          } else {
+            str = str + `<td>` + items[i][j] + `</td>`;
+          }
+        }
+        str = str + `</tr>`;
+      }
+      const element = document.getElementById("table");
+      element.removeChild(element.firstElementChild);
+
+      var e = document.createElement("div");
+      e.innerHTML = str;
+
+      while (e.firstChild) {
+        document.getElementById("table").appendChild(e.firstChild);
+      }
+      //document.getElementById("table").appendChild(e);
+      str = "";
+    }
+  </script>
+</html>
